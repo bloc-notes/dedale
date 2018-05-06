@@ -16,12 +16,13 @@
     <script type="text/javascript" src="Textures.js"></script>
     <script type="text/javascript" src="Image.js"></script>
     <script type="text/javascript" src="traquenard.js"></script>
+    <script type="text/javascript" src="Plat.js"></script> 
     <script type="text/javascript">
 
     </script>
 </head>
 
-<body onload="demarreChargeImage()">
+<body onload="demarreChargeImage(objCanvas)">
     <header class="sTexteCentre sLargeurDiv sEntete">
         <p>
             <span class="sTitreApp">
@@ -35,7 +36,7 @@
     </header>
 
     <main class="sLargeurDiv sCorps">
-        <canvas id="monCanvas" width="1280" height="720" tabindex="1" onkeydown="">
+        <canvas id="monCanvas" width="1280" height="720" tabindex="1" onkeydown="deplacerCamera(event.keyCode); return false">
             Votre navigateur ne supporte pas la balise canvas
         </canvas>
     </main>
@@ -53,3 +54,8 @@
     </footer>
 </body>
 </html>
+
+<!-- Code JavaScript local -->
+<script type="text/javascript">
+    var objCanvas = document.getElementById('monCanvas');
+</script>

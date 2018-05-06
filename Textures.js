@@ -2,9 +2,6 @@
 function creerTextures(objgl, tabImages) {
 	var tabObjTextures = new Array();
 	for (var i = 0; i < tabImages.length; i++) {    
-		// L'image de la texture
-		//var objImage = new Image();
-		//objImage.src = tabImages[i];
              
 		// Cr�er La texture
         var objTexture = objgl.createTexture();
@@ -17,11 +14,11 @@ function creerTextures(objgl, tabImages) {
                          objgl.UNSIGNED_BYTE, tabImages[i]);
 
 		// La param�trer
-		objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_MAG_FILTER, objgl.NEAREST);
-        objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_MIN_FILTER, objgl.NEAREST)
-
-        objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_WRAP_S, objgl.CLAMP_TO_EDGE);
-        objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_WRAP_T, objgl.CLAMP_TO_EDGE);
+		objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_MAG_FILTER, objgl.LINEAR);
+        objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_MIN_FILTER, objgl.NEAREST_MIPMAP_NEAREST);
+		objgl.generateMipmap(objgl.TEXTURE_2D);
+        objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_WRAP_S, objgl.REPEAT);
+        objgl.texParameteri(objgl.TEXTURE_2D, objgl.TEXTURE_WRAP_T, objgl.REPEAT);
 		
 		// Ins�rer cette texture dans un tableau de textures
 
