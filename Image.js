@@ -3,7 +3,7 @@
 //Pour executer chrome sans regle cors: chrome --allow-file-access-from-files
 
 function chargeImage(tabCheminImage) {
-    chargeTousLesImages(tabCheminImage,initAnimationImgCharger);
+    chargeTousLesImages(tabCheminImage,initAnimation);
 }
 
 function chargeTousLesImages(tabCheminImage, rappel) {
