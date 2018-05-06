@@ -1,4 +1,4 @@
-//dedale.js
+//traquenard.js
 //Philippe Doyon && Jérémie Lapointe
 //Fichier js Principale
 
