@@ -10,7 +10,7 @@ var objCycleAnimation = null;
 var tabImage = null;
 
 function demarreChargeImage() {
-    chargeImage(['Transparent.gif', 'Terre.png'], initAnimation);
+    chargeImage(['Transparent.gif'], initAnimation);
 }
 
 function initAnimation(tabDesImage) {
