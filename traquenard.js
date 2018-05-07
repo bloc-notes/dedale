@@ -73,11 +73,15 @@ function initScene3D(objgl) {
     objScene3D.textures = creerTextures(objgl, tabImage);
 
     // Créer le plancher
-    var obj3DPlancher = creerObj3DPlat(objgl, TEX_SOL, [1, 1, 1, 1], false);
+    var obj3DPlancher = creerObj3DPlat(objgl,31,31, TEX_SOL, false);
     tabObjets3D.push(obj3DPlancher);
 
+    //Créer le plancher pour l'enclos
+    var obj3DPlancherEnclos = creerObj3DPlat(objgl,3,3, TEX_MUR, false);
+    tabObjets3D.push(obj3DPlancherEnclos);
+
     // Créer le plafond
-    var obj3DPlafond = creerObj3DPlat(objgl, TEX_CIEL, [0.5, 1, 1, 1], true);
+    var obj3DPlafond = creerObj3DPlat(objgl,31,31, TEX_CIEL, true);
     tabObjets3D.push(obj3DPlafond);
 
     //Créer les murs
@@ -254,7 +258,7 @@ function deplacerCamera(eventCode) {
         var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
         var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
         var intDirection = (eventCode == 37) ? -1 : 1;
-        var fltAngle = intDirection * Math.PI / 90; // Tourner 2 degrés
+        var fltAngle = intDirection * Math.PI / 45; // 90 -> 2 degrés
         var fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
         var fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
         setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);

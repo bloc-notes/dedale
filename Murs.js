@@ -1,5 +1,8 @@
+//Murs.js
+//Jérémie Lapointe && Philippe Doyon
+//Adaptation du fichier du même nom d'Alain Loyer
 
-function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture, couleurTempo) {
+function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture) {
     var obj3DMurs = new Object();
     obj3DMurs.fltProfondeur = 1;
     obj3DMurs.fltLargeur = 1;
@@ -8,7 +11,7 @@ function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture, couleur
     obj3DMurs.fltPositionZ = fltPositionZ;
 
     obj3DMurs.vertex = creerVertexMurs(objgl, fltPositionX, fltPositionZ);
-    obj3DMurs.couleurs = creerCouleursMurs(objgl, couleurTempo);
+    obj3DMurs.couleurs = creerCouleursMurs(objgl, [0,0,0,1]);
     obj3DMurs.texels = creerTexelsMurs(objgl, intNoTexture);
     obj3DMurs.maillage = creerMaillageMurs(objgl);
 
