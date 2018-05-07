@@ -93,11 +93,11 @@ function initScene3D(objgl) {
         for (z = 0; z < intDimensionZ; z++) {
             var intTypeElement = tableauDedale[x][z];
             if (intTypeElement == 2) {
-                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_SOL, [0.65, 0.1, 0.1, 1]);
+                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_SOL);
                 tabObjets3D.push(obj3DMur);
             }
             else if ( intTypeElement == 3) {
-                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_MUR, [0.5, 0.8, 0, 1]);
+                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_MUR);
                 tabObjets3D.push(obj3DMur);
             }
         }
@@ -274,6 +274,16 @@ function deplacerCamera(eventCode) {
 
             var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
             var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+
+            // Limites du mur
+            /*
+            var fltLimiteOuest = -objScene3D.tabObjets3D[OBJ3D_MURS].fltLargeur / 2 + 0.1;
+            var fltLimiteEst = objScene3D.tabObjets3D[OBJ3D_MURS].fltLargeur / 2 - 0.1;
+            var fltLimiteNord = -objScene3D.tabObjets3D[OBJ3D_MURS].fltProfondeur / 2 + 0.1;
+            var fltLimiteSud = objScene3D.tabObjets3D[OBJ3D_MURS].fltProfondeur / 2 - 0.1;
+            
+            var binAucuneCollision = (fltXCamera > fltLimiteOuest) && (fltXCamera < fltLimiteEst) &&
+                                     (fltZCamera > fltLimiteNord) && (fltZCamera < fltLimiteSud);*/
 
             setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
             setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
