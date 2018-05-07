@@ -54,7 +54,7 @@ function creerTexelsPlat(objgl, fltLargeur, fltProfondeur, intNoTexture) {
     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTexelsPlat);
     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels), objgl.STATIC_DRAW);
 
-    objTexelsPlat.intNoTexture = intNoTexture; objTexelsPlat.pcCouleurTexel = 0.2;
+    objTexelsPlat.intNoTexture = intNoTexture; objTexelsPlat.pcCouleurTexel = 1;
     
     return objTexelsPlat;
   }

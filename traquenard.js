@@ -45,9 +45,12 @@ var tableauDedale = [
 //constante texture
 var TEX_TRANSPARENT = 0;
 var TEX_SOL = 1;
+var TEX_MUR = 2;
+var TEX_CIEL = 3;
+
 
 function demarreChargeImage(Canvas) {
-    chargeImage(['Transparent.gif', 'Sol.jpg'], initAnimation);
+    chargeImage(['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'Ciel.jpg'], initAnimation);
     objCanvas = Canvas;
 
 }
@@ -70,17 +73,14 @@ function initScene3D(objgl) {
     objScene3D.textures = creerTextures(objgl, tabImage);
 
     // Créer le plancher
-    var obj3DPlancher = creerObj3DPlat(objgl, TEX_TRANSPARENT, [1, 1, 1, 1], false);
+    var obj3DPlancher = creerObj3DPlat(objgl, TEX_SOL, [1, 1, 1, 1], false);
     tabObjets3D.push(obj3DPlancher);
 
     // Créer le plafond
-    var obj3DPlafond = creerObj3DPlat(objgl, TEX_TRANSPARENT, [0.5, 1, 1, 1], true);
+    var obj3DPlafond = creerObj3DPlat(objgl, TEX_CIEL, [0.5, 1, 1, 1], true);
     tabObjets3D.push(obj3DPlafond);
 
-    //Créer mur
-    var obj3DMur = creerObj3DMurs(objgl, 0, 0, TEX_SOL, [0.5, 0.8, 0, 1]);
-    tabObjets3D.push(obj3DMur);
-
+    //Créer les murs
     var x;
     var intDimensionX = tableauDedale.length;
     for (x = 0; x < intDimensionX; x++) {
@@ -88,8 +88,12 @@ function initScene3D(objgl) {
         var intDimensionZ = tableauDedale[x].length;
         for (z = 0; z < intDimensionZ; z++) {
             var intTypeElement = tableauDedale[x][z];
-            if (intTypeElement == 2 || intTypeElement == 3) {
-                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_SOL, [0.5, 0.8, 0, 1]);
+            if (intTypeElement == 2) {
+                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_SOL, [0.65, 0.1, 0.1, 1]);
+                tabObjets3D.push(obj3DMur);
+            }
+            else if ( intTypeElement == 3) {
+                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_MUR, [0.5, 0.8, 0, 1]);
                 tabObjets3D.push(obj3DMur);
             }
         }
