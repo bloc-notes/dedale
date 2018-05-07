@@ -3,27 +3,24 @@ function creerObj3DPlat(objgl, intNoTexture, couleurTempo, booSolCiel) {
     var obj3DPlat = new Object();
     obj3DPlat.fltProfondeur = 31;
     obj3DPlat.fltLargeur = 31;
-    obj3DPlat.fltHauteur = 0;
+    obj3DPlat.fltHauteur = booSolCiel ? 2.05 : 0;
     
-    obj3DPlat.vertex = creerVertexPlat(objgl, obj3DPlat.fltLargeur, obj3DPlat.fltProfondeur);
+    obj3DPlat.vertex = creerVertexPlat(objgl, obj3DPlat.fltLargeur, obj3DPlat.fltProfondeur, obj3DPlat.fltHauteur);
     obj3DPlat.couleurs = creerCouleursPlat(objgl, couleurTempo);
 	obj3DPlat.texels = creerTexelsPlat(objgl, obj3DPlat.fltLargeur, obj3DPlat.fltProfondeur, intNoTexture);
 	obj3DPlat.maillage = creerMaillagePlat(objgl);
 	
     obj3DPlat.transformations = creerTransformations();
 
-    if (!booSolCiel) {
-        setPositionY(10,obj3DPlat.transformations);
-    }
     return obj3DPlat;
 }
 
-function creerVertexPlat(objgl, fltLargeur, fltProfondeur) {
+function creerVertexPlat(objgl, fltLargeur, fltProfondeur, fltHauteur) {
     var tabVertex = [
-             -fltLargeur / 2, 0.0, -fltProfondeur / 2,
-             fltLargeur / 2, 0.0, -fltProfondeur / 2,
-             -fltLargeur / 2, 0.0, fltProfondeur / 2,
-             fltLargeur / 2, 0.0, fltProfondeur / 2
+             0, fltHauteur, 0,
+             fltLargeur , fltHauteur, 0,
+             0, fltHauteur, fltProfondeur,
+             fltLargeur, fltHauteur, fltProfondeur
         ];
     
     var objPlat = objgl.createBuffer();

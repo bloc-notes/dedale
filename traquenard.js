@@ -8,6 +8,39 @@ var objProgShaders = null;
 var objScene3D = null;
 var objCycleAnimation = null;
 var tabImage = null;
+var tableauDedale = [
+    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [3, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 3],
+    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 3],
+    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
+    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 3],
+    [3, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 3],
+    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 4, 3, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 2, 1, 3],
+    [3, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 1, 4, 4, 4, 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 3],
+    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 4, 3, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 2, 1, 3],
+    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 3],
+    [3, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 3],
+    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
+    [3, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3],
+    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+];
 
 //constante texture
 var TEX_TRANSPARENT = 0;
@@ -36,21 +69,40 @@ function initScene3D(objgl) {
     // Mettre les textures dans la scène
     objScene3D.textures = creerTextures(objgl, tabImage);
 
-    // Créer le sol
-    var obj3DPlancher = creerObj3DPlat(objgl, TEX_TRANSPARENT, [1,1,1,1], false);
+    // Créer le plancher
+    var obj3DPlancher = creerObj3DPlat(objgl, TEX_TRANSPARENT, [1, 1, 1, 1], false);
     tabObjets3D.push(obj3DPlancher);
 
-    // Créer le ciel
-    var obj3DPlafond = creerObj3DPlat(objgl, TEX_TRANSPARENT, [0.5,1,1,1], true);
+    // Créer le plafond
+    var obj3DPlafond = creerObj3DPlat(objgl, TEX_TRANSPARENT, [0.5, 1, 1, 1], true);
     tabObjets3D.push(obj3DPlafond);
+
+    //Créer mur
+    var obj3DMur = creerObj3DMurs(objgl, 0, 0, TEX_SOL, [0.5, 0.8, 0, 1]);
+    tabObjets3D.push(obj3DMur);
+
+    var x;
+    var intDimensionX = tableauDedale.length;
+    for (x = 0; x < intDimensionX; x++) {
+        var z;
+        var intDimensionZ = tableauDedale[x].length;
+        for (z = 0; z < intDimensionZ; z++) {
+            var intTypeElement = tableauDedale[x][z];
+            if (intTypeElement == 2 || intTypeElement == 3) {
+                var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_SOL, [0.5, 0.8, 0, 1]);
+                tabObjets3D.push(obj3DMur);
+            }
+        }
+    }
+    
 
     // Mettre les objets 3D sur la scène
     objScene3D.tabObjets3D = tabObjets3D;
 
     // La caméra
     var camera = creerCamera();
-    setPositionsCameraXYZ([0, 0.5, 5], camera);
-    setCiblesCameraXYZ([0, 0.5, 0], camera);
+    setPositionsCameraXYZ([1.5, 1, 1.5], camera);
+    setCiblesCameraXYZ([15, 1, 15], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
     // Mettre la caméra sur la scène
@@ -122,9 +174,11 @@ function dessiner(objgl, objProgShaders, objScene3D) {
         // Relier la matrice aux shaders
         objgl.uniformMatrix4fv(objProgShaders.matModeleVue, false, matModeleVue);
 
-        if (maillage == null)
+        if (maillage == null) {
             // Dessiner les sous-objets
-            for (var j = 0; j < vertex.length; j++) {
+            var j;
+            var intNbSousObjet = vertex.length;
+            for (j = 0; j < intNbSousObjet; j++) {
 
                 // Relier les vertex aux shaders
                 objgl.bindBuffer(objgl.ARRAY_BUFFER, vertex[j]);
@@ -150,6 +204,7 @@ function dessiner(objgl, objProgShaders, objScene3D) {
                 // Dessiner
                 objgl.drawArrays(vertex[j].typeDessin, 0, intNbVertex);
             }
+        }
         else { // Dessiner le maillage
 
             // Relier les vertex aux shaders
@@ -186,7 +241,7 @@ function dessiner(objgl, objProgShaders, objScene3D) {
 function deplacerCamera(eventCode) {
     var camera = objScene3D.camera;
 
-    if (eventCode== 37 || eventCode == 39) {
+    if (eventCode == 37 || eventCode == 39) {
         // 37:  Flèche-à-gauche; 39:Flèche-à-droite
         var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
         var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
@@ -197,22 +252,22 @@ function deplacerCamera(eventCode) {
         setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
         setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
     }
-    else 
-    if (eventCode == 38 || eventCode == 40) {
-        // 38:  Flèche-en-haut; 40:Flèche-en-bas
-        var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-        var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-        var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-        var intDirection = (eventCode == 38) ? 1 : -1;
+    else
+        if (eventCode == 38 || eventCode == 40) {
+            // 38:  Flèche-en-haut; 40:Flèche-en-bas
+            var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+            var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+            var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
+            var intDirection = (eventCode == 38) ? 1 : -1;
 
-        var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-        var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+            var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
+            var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
 
-        setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
-        setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
-        setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-        setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
-    }
+            setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
+            setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
+            setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+            setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+        }
 
     effacerCanevas(objgl);
     dessiner(objgl, objProgShaders, objScene3D);
