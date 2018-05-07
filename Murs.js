@@ -126,5 +126,3 @@ function creerMaillageMurs(objgl) {
 
     return objMaillageMurs;
 }
-
-
