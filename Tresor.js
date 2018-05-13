@@ -3,6 +3,7 @@
 
 function creerObj3DTresor(objgl, fltPositionX, fltPositionZ, intNoTexture, couleurTempo) {
     var obj3DTresor = new Object();
+    obj3DTresor.strType = "tresort";
 
     obj3DTresor.vertex = creerVertexTresor(objgl, fltPositionX, fltPositionZ);
     obj3DTresor.couleurs = creerCouleursTresor(objgl, couleurTempo);

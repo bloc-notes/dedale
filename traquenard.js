@@ -8,6 +8,7 @@ var objProgShaders = null;
 var objScene3D = null;
 var objCycleAnimation = null;
 var tabImage = null;
+var objJoueur = null;
 var tableauDedale = [
     [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [3, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3],
@@ -48,6 +49,12 @@ var TEX_SOL = 1;
 var TEX_MUR = 2;
 var TEX_CIEL = 3;
 
+//Direction
+const Nord = 0;
+const Est = 1;
+const Sud = 2;
+const Ouest = 3;
+
 
 function demarreChargeImage(Canvas) {
     chargeImage(['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'Ciel.jpg'], initAnimation);
@@ -73,15 +80,15 @@ function initScene3D(objgl) {
     objScene3D.textures = creerTextures(objgl, tabImage);
 
     // Créer le plancher
-    var obj3DPlancher = creerObj3DPlat(objgl,31,31, TEX_SOL, false);
+    var obj3DPlancher = creerObj3DPlat(objgl, 31, 31, TEX_SOL, false);
     tabObjets3D.push(obj3DPlancher);
 
     //Créer le plancher pour l'enclos
-    var obj3DPlancherEnclos = creerObj3DPlat(objgl,3,3, TEX_MUR, false);
+    var obj3DPlancherEnclos = creerObj3DPlat(objgl, 3, 3, TEX_MUR, false);
     tabObjets3D.push(obj3DPlancherEnclos);
 
     // Créer le plafond
-    var obj3DPlafond = creerObj3DPlat(objgl,31,31, TEX_CIEL, true);
+    var obj3DPlafond = creerObj3DPlat(objgl, 31, 31, TEX_CIEL, true);
     tabObjets3D.push(obj3DPlafond);
 
     //Créer les murs
@@ -96,7 +103,7 @@ function initScene3D(objgl) {
                 var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_SOL);
                 tabObjets3D.push(obj3DMur);
             }
-            else if ( intTypeElement == 3) {
+            else if (intTypeElement == 3) {
                 var obj3DMur = creerObj3DMurs(objgl, x, z, TEX_MUR);
                 tabObjets3D.push(obj3DMur);
             }
@@ -104,12 +111,14 @@ function initScene3D(objgl) {
     }
 
     // Créer le trésor (maillage tempo et place défini tempo)
-    var obj3DTresor = creerObj3DTresor(objgl, 14, 16, TEX_SOL, [0.8,0.6,0.1,1]);
+    var obj3DTresor = creerObj3DTresor(objgl, 14, 16, TEX_SOL, [0.8, 0.6, 0.1, 1]);
     tabObjets3D.push(obj3DTresor);
-    
+
 
     // Mettre les objets 3D sur la scène
     objScene3D.tabObjets3D = tabObjets3D;
+
+    objJoueur = new Joueur(tableauDedale);
 
     // La caméra
     var camera = creerCamera();
@@ -264,32 +273,66 @@ function deplacerCamera(eventCode) {
         setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
         setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
     }
-    else
-        if (eventCode == 38 || eventCode == 40) {
-            // 38:  Flèche-en-haut; 40:Flèche-en-bas
-            var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-            var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-            var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-            var intDirection = (eventCode == 38) ? 1 : -1;
+    else if (eventCode == 38 || eventCode == 40) {
+        // 38:  Flèche-en-haut; 40:Flèche-en-bas
+        var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+        var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+        var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
+        var intDirection = (eventCode == 38) ? 1 : -1;
 
-            var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-            var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+        var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
+        var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
 
-            // Limites du mur
-            /*
-            var fltLimiteOuest = -objScene3D.tabObjets3D[OBJ3D_MURS].fltLargeur / 2 + 0.1;
-            var fltLimiteEst = objScene3D.tabObjets3D[OBJ3D_MURS].fltLargeur / 2 - 0.1;
-            var fltLimiteNord = -objScene3D.tabObjets3D[OBJ3D_MURS].fltProfondeur / 2 + 0.1;
-            var fltLimiteSud = objScene3D.tabObjets3D[OBJ3D_MURS].fltProfondeur / 2 - 0.1;
-            
-            var binAucuneCollision = (fltXCamera > fltLimiteOuest) && (fltXCamera < fltLimiteEst) &&
-                                     (fltZCamera > fltLimiteNord) && (fltZCamera < fltLimiteSud);*/
+        // Positions de la caméra
+        var fltXCamera = getPositionX(camera) + fltXPrime;
+        var fltZCamera = getPositionZ(camera) + fltZPrime;
 
+        // Limites du mur
+        
+        var fltLimiteNord = objJoueur.limiteDeplacementJoueur(Nord) + 0.1;
+        var fltLimiteEst = objJoueur.limiteDeplacementJoueur(Est) - 0.1;
+        var fltLimiteSud = objJoueur.limiteDeplacementJoueur(Sud) - 0.1;
+        var fltLimiteOuest = objJoueur.limiteDeplacementJoueur(Ouest) + 0.1;
+
+        var objCibleCam = new Object();
+        objCibleCam.x = getCibleCameraX(camera);
+        objCibleCam.y = getCibleCameraY(camera); 
+        objCibleCam.z = getCibleCameraZ(camera); 
+        var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCibleCam);
+        /*
+        var binAucuneCollision = (fltXCamera > fltLimiteOuest) && (fltXCamera < fltLimiteEst) &&
+            (fltZCamera > fltLimiteNord) && (fltZCamera < fltLimiteSud);*/
+
+        if (binAucuneCollision) {
             setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
             setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
             setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
             setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
         }
+        else {
+            if (fltXCamera <= fltLimiteOuest || fltXCamera >= fltLimiteEst) {
+                // On longe le mur ouest ou est 
+                fltZPrime = 0.2 * ((fltZ < 0) ? -1 : 1); fltXPrime = 0.0;
+            }
+            else { // On longe le mur sud ou nord
+                fltXPrime = 0.2 * ((fltX < 0) ? -1 : 1); fltZPrime = 0.0;
+            }
+
+            // Nouvelles positions de la caméra
+            fltXCamera = getPositionX(camera) + fltXPrime;
+            fltZCamera = getPositionZ(camera) + fltZPrime;
+            var binAucuneCollision = (fltXCamera > fltLimiteOuest) && (fltXCamera < fltLimiteEst) &&
+                (fltZCamera > fltLimiteNord) && (fltZCamera < fltLimiteSud);
+            // Longer le mur s'il ne rencontre pas un nouveau mur
+            if (binAucuneCollision) {
+                setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
+                setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
+                setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+                setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+            }
+        }
+    }
+    objJoueur.majPosition(getPositionCameraX(camera), getPositionCameraZ(camera));
 
     effacerCanevas(objgl);
     dessiner(objgl, objProgShaders, objScene3D);
