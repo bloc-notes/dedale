@@ -283,25 +283,27 @@ function deplacerCamera(eventCode) {
         var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
         var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
 
+        //Permet de laisser une distance entre le mur et le joueur
+        var fltXPrimeBonus = intDirection * 0.3 * Math.cos(Math.acos(fltX / fltRayon));
+        var fltZPrimeBonus = intDirection * 0.3 * Math.cos(Math.acos(fltZ / fltRayon));
+
         // Positions de la caméra
         var fltXCamera = getPositionX(camera) + fltXPrime;
         var fltZCamera = getPositionZ(camera) + fltZPrime;
 
         // Limites du mur
         
-        var fltLimiteNord = objJoueur.limiteDeplacementJoueur(Nord) + 0.1;
+        //var fltLimiteNord = objJoueur.limiteDeplacementJoueur(Nord) + 0.1;
         var fltLimiteEst = objJoueur.limiteDeplacementJoueur(Est) - 0.1;
-        var fltLimiteSud = objJoueur.limiteDeplacementJoueur(Sud) - 0.1;
+        //var fltLimiteSud = objJoueur.limiteDeplacementJoueur(Sud) - 0.1;
         var fltLimiteOuest = objJoueur.limiteDeplacementJoueur(Ouest) + 0.1;
 
-        var objCibleCam = new Object();
-        objCibleCam.x = getCibleCameraX(camera);
-        objCibleCam.y = getCibleCameraY(camera); 
-        objCibleCam.z = getCibleCameraZ(camera); 
-        var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCibleCam);
-        /*
-        var binAucuneCollision = (fltXCamera > fltLimiteOuest) && (fltXCamera < fltLimiteEst) &&
-            (fltZCamera > fltLimiteNord) && (fltZCamera < fltLimiteSud);*/
+        var objCamFutur = new Object();
+        objCamFutur.x = getPositionX(camera) + fltXPrimeBonus;
+        objCamFutur.y = getPositionY(camera); 
+        objCamFutur.z = getPositionZ(camera) + fltZPrimeBonus;
+
+        var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCamFutur);
 
         if (binAucuneCollision) {
             setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
@@ -313,16 +315,23 @@ function deplacerCamera(eventCode) {
             if (fltXCamera <= fltLimiteOuest || fltXCamera >= fltLimiteEst) {
                 // On longe le mur ouest ou est 
                 fltZPrime = 0.2 * ((fltZ < 0) ? -1 : 1); fltXPrime = 0.0;
+                fltZPrimeBonus = 0.3 * ((fltZ < 0) ? -1 : 1); fltXPrimeBonus = 0.0;
             }
             else { // On longe le mur sud ou nord
                 fltXPrime = 0.2 * ((fltX < 0) ? -1 : 1); fltZPrime = 0.0;
+                fltXPrimeBonus = 0.3 * ((fltZ < 0) ? -1 : 1); fltZPrimeBonus = 0.0;
             }
 
             // Nouvelles positions de la caméra
             fltXCamera = getPositionX(camera) + fltXPrime;
             fltZCamera = getPositionZ(camera) + fltZPrime;
-            var binAucuneCollision = (fltXCamera > fltLimiteOuest) && (fltXCamera < fltLimiteEst) &&
-                (fltZCamera > fltLimiteNord) && (fltZCamera < fltLimiteSud);
+
+            var objCamFutur = new Object();
+            objCamFutur.x = getPositionX(camera) + fltXPrimeBonus;
+            objCamFutur.y = getPositionY(camera); 
+            objCamFutur.z = getPositionZ(camera) + fltZPrimeBonus;
+
+            var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCamFutur);
             // Longer le mur s'il ne rencontre pas un nouveau mur
             if (binAucuneCollision) {
                 setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);

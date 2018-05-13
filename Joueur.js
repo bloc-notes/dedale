@@ -9,7 +9,7 @@ class Joueur {
         this.tabCarte = tabDedale;
     }
 
-    //Retourne le x ou le z de la limite du mur (selon la direction)
+    //Retourne le x ou le z de la limite du mur (selon la direction) ne prend âs en compte la direction (angle d'avancement)
     limiteDeplacementJoueur(intDirection) {
         var incX = 0;
         var incZ = 0;
@@ -47,7 +47,7 @@ class Joueur {
         return ((incX == 0) ? z : x);
     }
 
-    aucuneCollision(tabObjet3D, objCibleCam) {
+    aucuneCollision(tabObjet3D, objCamFutur) {
         var index = 0;
         var dimension = tabObjet3D.length;
         var booCollision = true;
@@ -60,12 +60,11 @@ class Joueur {
                 var objMinZ = tabObjet3D[index].fltPositionZ;
                 var objMaxZ = tabObjet3D[index].fltPositionZ + tabObjet3D[index].fltProfondeur;
 
-                booCollision = !((objCibleCam.x >= objMinX && objCibleCam.x <= objMaxX) &&
-                    (objCibleCam.y >= objMinY && objCibleCam.y <= objMaxY) &&
-                    (objCibleCam.z >= objMinZ && objCibleCam.z <= objMaxZ));
+                booCollision = !((objCamFutur.x >= objMinX && objCamFutur.x <= objMaxX) &&
+                    (objCamFutur.y >= objMinY && objCamFutur.y <= objMaxY) &&
+                    (objCamFutur.z >= objMinZ && objCamFutur.z <= objMaxZ));
             }
         }
-        console.log('Resultat: ' + booCollision);
         return booCollision;
     }
 
