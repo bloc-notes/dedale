@@ -8,7 +8,7 @@ function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture) {
     obj3DMurs.fltLargeur = 1;
     obj3DMurs.fltHauteur = 2;
     obj3DMurs.fltPositionX = fltPositionX;
-    obj3DMurs.fltPositionZ = fltPositionZ;
+    obj3DMurs.fltPositionZ = fltPositionZ;//teste git
 
     obj3DMurs.vertex = creerVertexMurs(objgl, fltPositionX, fltPositionZ);
     obj3DMurs.couleurs = creerCouleursMurs(objgl, [0,0,0,1]);
