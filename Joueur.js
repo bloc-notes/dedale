@@ -5,8 +5,9 @@ class Joueur {
     constructor(tabDedale) {
         this.fltPositionX = 1.5// tempo, ca va etre 16
         this.fltPositionZ = 1.5; // tempo, ca va etre 16
-        this.intNbOuvreur = 0;
+        this.intNbOuvreur = 4;
         this.tabCarte = tabDedale;
+        this.intDirection = -1;
     }
 
     //Retourne le x ou le z de la limite du mur (selon la direction) ne prend âs en compte la direction (angle d'avancement)
@@ -71,5 +72,97 @@ class Joueur {
     majPosition(intX, intZ) {
         this.fltPositionX = intX;
         this.fltPositionZ = intZ;
+    }
+
+    directionRegard(camX,camZ) {
+        var XJoueur = Math.floor(this.fltPositionX);
+        var ZJoueur = Math.floor(this.fltPositionZ);
+        var XCamera = Math.floor(camX);
+        var ZCamera = Math.floor(camZ);
+
+        if (ZCamera < ZJoueur) {
+            //Nord
+            this.intDirection = 0;
+        }
+        else if (ZCamera > ZJoueur) {
+            //Sud
+            this.intDirection = 2;
+        }
+        else if (XCamera> XJoueur) {
+            //Est
+            this.intDirection = 1;
+        }
+        else if (XCamera < XJoueur) {
+            //Ouest
+            this.intDirection = 3;
+        }
+        return this.intDirection;
+    }
+
+    //retour en tuple de 2 (booléen,int)
+    MurDevantDestructible(tabObjet3D) {
+        var XJoueur = Math.floor(this.fltPositionX);
+        var ZJoueur = Math.floor(this.fltPositionZ);
+        
+        var objPosition = this.deplacementAvecDirection();
+        var incX = objPosition.X;
+        var incZ = objPosition.Z;
+
+        var xTempo = XJoueur;
+        var ztempo = ZJoueur;
+        
+        xTempo += incX;
+        ztempo += incZ;
+
+        var index = 0;
+        var dimension = tabObjet3D.length;
+        var booTrouver = false;
+        for (; (index < dimension) && !booTrouver; index++) {
+            var obj3D = objScene3D.tabObjets3D[index];
+            if (obj3D.fltPositionX == xTempo && obj3D.fltPositionZ == ztempo) {
+                //Mur destructible a cette position, donc devant lui
+                if (obj3D.strType == "mur" && obj3D.intNoTexture == 2) { //Tempo texure actuel
+                    booTrouver = true;
+                }
+                else {
+                    index = dimension;
+                }
+            }
+        }
+
+        var objRetour = new Object();
+        objRetour.booTrouver = booTrouver;
+        objRetour.index;
+        return objRetour;
+    }
+
+    deplacementAvecDirection() {
+        var incX = 0;
+        var incZ = 0;
+
+        switch (this.intDirection) {
+            //Nord
+            case 0:
+                incZ--;
+                break;
+            //Est
+            case 1:
+                incX++;
+                break;
+            //Sud
+            case 2:
+                incZ++;
+                break;
+            //Ouest
+            case 3:
+                incX--;
+                break;
+        }
+
+        var objPosition = new Object();
+        objPosition.X = incX;
+        objPosition.Z = incZ;
+
+        return objPosition;
     }
 }

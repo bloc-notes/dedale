@@ -122,7 +122,7 @@ function initScene3D(objgl) {
 
     // La caméra
     var camera = creerCamera();
-    setPositionsCameraXYZ([1.5, 1, 1.5], camera);
+    setPositionsCameraXYZ([15.5, 1, 16], camera);
     setCiblesCameraXYZ([15, 1, 15], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
@@ -262,7 +262,13 @@ function dessiner(objgl, objProgShaders, objScene3D) {
 function deplacerCamera(eventCode) {
     var camera = objScene3D.camera;
 
-    if (eventCode == 37 || eventCode == 39) {
+
+    if (eventCode == 32) {
+        console.log("Barre d'espacement??");
+        //tempoTenteOuvrirMur();
+
+    }
+    else if (eventCode == 37 || eventCode == 39) {
         // 37:  Flèche-à-gauche; 39:Flèche-à-droite
         var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
         var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
@@ -343,6 +349,10 @@ function deplacerCamera(eventCode) {
     }
     objJoueur.majPosition(getPositionCameraX(camera), getPositionCameraZ(camera));
 
+    deroulementNiveau();
+
     effacerCanevas(objgl);
     dessiner(objgl, objProgShaders, objScene3D);
 }
+
+

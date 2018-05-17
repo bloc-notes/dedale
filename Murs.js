@@ -11,6 +11,7 @@ function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture) {
     obj3DMurs.fltPositionZ = fltPositionZ;
     obj3DMurs.fltPositionY = 0;
     obj3DMurs.strType = "mur";
+    obj3DMurs.intNoTexture = intNoTexture;
 
     obj3DMurs.vertex = creerVertexMurs(objgl, fltPositionX, fltPositionZ);
     obj3DMurs.couleurs = creerCouleursMurs(objgl, [0,0,0,1]);
