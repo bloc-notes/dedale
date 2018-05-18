@@ -96,6 +96,7 @@ class Joueur {
             //Ouest
             this.intDirection = 3;
         }
+        console.log(this.intDirection);
         return this.intDirection;
     }
 
@@ -109,30 +110,27 @@ class Joueur {
         var incZ = objPosition.Z;
 
         var xTempo = XJoueur;
-        var ztempo = ZJoueur;
+        var zTempo = ZJoueur;
         
         xTempo += incX;
-        ztempo += incZ;
+        zTempo += incZ;
 
         var index = 0;
         var dimension = tabObjet3D.length;
         var booTrouver = false;
         for (; (index < dimension) && !booTrouver; index++) {
             var obj3D = objScene3D.tabObjets3D[index];
-            if (obj3D.fltPositionX == xTempo && obj3D.fltPositionZ == ztempo) {
-                //Mur destructible a cette position, donc devant lui
-                if (obj3D.strType == "mur" && obj3D.intNoTexture == 2) { //Tempo texure actuel
+            //Mur destructible a cette position, donc devant lui
+            if (obj3D.strType == "mur" && obj3D.intNoTexture == 1) { //Tempo texure actuel
+                if (obj3D.fltPositionX == xTempo && obj3D.fltPositionZ == zTempo) {
                     booTrouver = true;
-                }
-                else {
-                    index = dimension;
                 }
             }
         }
 
         var objRetour = new Object();
         objRetour.booTrouver = booTrouver;
-        objRetour.index;
+        objRetour.index = (index - 1);
         return objRetour;
     }
 

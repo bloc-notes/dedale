@@ -264,8 +264,7 @@ function deplacerCamera(eventCode) {
 
 
     if (eventCode == 32) {
-        console.log("Barre d'espacement??");
-        //tempoTenteOuvrirMur();
+        tempoTenteOuvrirMur();
 
     }
     else if (eventCode == 37 || eventCode == 39) {
