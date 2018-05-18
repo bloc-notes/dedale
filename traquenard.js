@@ -111,8 +111,12 @@ function initScene3D(objgl) {
     }
 
     // Créer le trésor (maillage tempo et place défini tempo)
-    var obj3DTresor = creerObj3DTresor(objgl, 14, 16, TEX_SOL, [0.8, 0.6, 0.1, 1]);
+    var obj3DTresor = creerObj3DTresor(objgl, 22, 12, TEX_SOL, [0.8, 0.6, 0.1, 1]);
     tabObjets3D.push(obj3DTresor);
+
+    //Ajouter une flèche ... tempo
+    var obj3DFleche = creerObj3DFleches(objgl, 22,10, TEX_SOL);
+    tabObjets3D.push(obj3DFleche);
 
 
     // Mettre les objets 3D sur la scène
