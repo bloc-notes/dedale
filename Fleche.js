@@ -11,6 +11,7 @@ function creerObj3DFleches(objgl, fltPositionX, fltPositionZ, intNoTexture) {
     obj3DFleches.fltPositionY = 1;
     obj3DFleches.strType = "fleche";
     obj3DFleches.intNoTexture = intNoTexture;
+    obj3DFleches.booVisible = true;
 
     obj3DFleches.vertex = creerVertexFleches(objgl, fltPositionX, fltPositionZ);
     obj3DFleches.couleurs = creerCouleursFleches(objgl, [0.5,0,0.5,1]);

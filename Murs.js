@@ -12,6 +12,7 @@ function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture) {
     obj3DMurs.fltPositionY = 0;
     obj3DMurs.strType = "mur";
     obj3DMurs.intNoTexture = intNoTexture;
+    obj3DMurs.booVisible = true;
 
     obj3DMurs.vertex = creerVertexMurs(objgl, fltPositionX, fltPositionZ);
     obj3DMurs.couleurs = creerCouleursMurs(objgl, [0,0,0,1]);
@@ -87,7 +88,7 @@ function creerTexelsMurs(objgl, intNoTexture) {
     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTexelsMurs);
     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels), objgl.STATIC_DRAW);
 
-    objTexelsMurs.intNoTexture = intNoTexture; objTexelsMurs.pcCouleurTexel = 1;
+    objTexelsMurs.intNoTexture = intNoTexture; objTexelsMurs.pcCouleurTexel = 0.5;
 
     return objTexelsMurs;
 }

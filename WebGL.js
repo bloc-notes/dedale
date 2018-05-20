@@ -9,6 +9,10 @@
 				  objCanvas.getContext('experimental-webgl');
           objgl.enable(objgl.DEPTH_TEST); // Active le test de profondeur
           objgl.depthFunc(objgl.LEQUAL);  // Les objets proches cachent les objets lointains
+
+          //Permet d'utiliser l'alpha (en autre)
+          objgl.enable(objgl.BLEND);
+          objgl.blendFunc(objgl.SRC_ALPHA, objgl.ONE_MINUS_SRC_ALPHA);
       } 
       catch(e) {
 		alert('Impossible d\'initialiser le WebGL. Il est possible que votre navigateur ne supporte pas cette fonctionnalité.\n', e.message); 

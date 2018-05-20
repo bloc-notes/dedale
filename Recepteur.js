@@ -11,6 +11,7 @@ function creerObj3DRecepteur(objgl, fltPositionX, fltPositionZ, intNoTexture) {
     obj3DRecepteur.fltPositionY = 0.25;
     obj3DRecepteur.strType = "recepteur";
     obj3DRecepteur.intNoTexture = intNoTexture;
+    obj3DRecepteur.booVisible = true;
 
     obj3DRecepteur.vertex = creerVertexRecepteur(objgl, fltPositionX, fltPositionZ, obj3DRecepteur.fltPositionY);
     obj3DRecepteur.couleurs = creerCouleursRecepteur(objgl, [0,0,0.4,1]);

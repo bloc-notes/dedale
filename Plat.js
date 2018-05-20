@@ -8,6 +8,8 @@ function creerObj3DPlat(objgl, fltLargeur, fltProfondeur, intNoTexture, booSolCi
     obj3DPlat.fltLargeur = fltLargeur;
     obj3DPlat.fltHauteur = (intNoTexture == 3) ? 2.05 : ((intNoTexture == 2) ? 0.01 : 0); // 0.01 empèche le plancher général et celui de l'enclos de s'interposer selon le point de vue
     obj3DPlat.strType = "plat";
+    obj3DPlat.intNoTexture = intNoTexture;
+    obj3DPlat.booVisible = true;
 
     obj3DPlat.vertex = creerVertexPlat(objgl, obj3DPlat.fltLargeur, obj3DPlat.fltProfondeur, obj3DPlat.fltHauteur, intNoTexture);
     obj3DPlat.couleurs = creerCouleursPlat(objgl, [1, 1, 1, 1]);

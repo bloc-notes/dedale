@@ -9,6 +9,7 @@ var objScene3D = null;
 var objCycleAnimation = null;
 var tabImage = null;
 var objJoueur = null;
+var objVueAerienne = null;
 var tableauDedale = [
     [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
     [3, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3],
@@ -145,10 +146,14 @@ function initScene3D(objgl) {
     var camera = creerCamera();
     setPositionsCameraXYZ([15.5, 1, 16], camera);
     setCiblesCameraXYZ([15, 1, 0], camera);
+    //setPositionsCameraXYZ([15.5, 30, 16], camera);
+    //setCiblesCameraXYZ([15, 0, 16], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
     // Mettre la caméra sur la scène
     objScene3D.camera = camera;
+
+    objVueAerienne = new VueAerienne();
 
     return objScene3D;
 }
@@ -204,6 +209,7 @@ function dessiner(objgl, objProgShaders, objScene3D) {
     var i;
     var intDimensionTab = objScene3D.tabObjets3D.length;
     for (i = 0; i < intDimensionTab; i++) {
+        if (objScene3D.tabObjets3D[i].booVisible) {
         var vertex = objScene3D.tabObjets3D[i].vertex;
         var couleurs = objScene3D.tabObjets3D[i].couleurs;
         var texels = objScene3D.tabObjets3D[i].texels;
@@ -292,6 +298,7 @@ function dessiner(objgl, objProgShaders, objScene3D) {
             objgl.drawElements(objgl.LINES, maillage.intNbDroites * 2, objgl.UNSIGNED_SHORT, maillage.intNbTriangles * 2 * 3);
         }
     }
+    }
 }
 
 function deplacerCamera(eventCode) {
@@ -301,6 +308,18 @@ function deplacerCamera(eventCode) {
     if (eventCode == 32) {
         tempoTenteOuvrirMur();
 
+    }
+    else if (eventCode == 72) {
+        if (!objVueAerienne.booVueActive){
+            objVueAerienne.activeVueAerienne();
+        }
+        
+    }
+    else if (eventCode == 66) {
+        if (objVueAerienne.booVueActive){
+            objVueAerienne.desactiveVueAerienne();
+        }
+        
     }
     else if (eventCode == 37 || eventCode == 39) {
         // 37:  Flèche-à-gauche; 39:Flèche-à-droite

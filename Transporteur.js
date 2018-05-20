@@ -11,9 +11,11 @@ function creerObj3DTransporteur(objgl, fltPositionX, fltPositionZ, intNoTexture)
     obj3DTransporteur.fltPositionY = 0;
     obj3DTransporteur.strType = "transporteur";
     obj3DTransporteur.intNoTexture = intNoTexture;
+    obj3DTransporteur.booVisible = true;
 
     obj3DTransporteur.vertex = creerVertexTransporteur(objgl, fltPositionX, fltPositionZ, obj3DTransporteur.fltHauteur);
     obj3DTransporteur.couleurs = creerCouleursTransporteur(objgl, [0.52,0.52,0.52,1]);
+    //obj3DTransporteur.couleurs = creerCouleursTransporteur(objgl, [0,0,0,0]);
     obj3DTransporteur.texels = creerTexelsTransporteur(objgl, intNoTexture);
     obj3DTransporteur.maillage = creerMaillageTransporteur(objgl);
 

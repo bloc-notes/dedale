@@ -8,6 +8,7 @@ class Joueur {
         this.intNbOuvreur = 4;
         this.tabCarte = tabDedale;
         this.intDirection = -1;
+        this.booImmobile = false;
     }
 
     //Retourne le x ou le z de la limite du mur (selon la direction) ne prend âs en compte la direction (angle d'avancement)
