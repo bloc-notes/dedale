@@ -5,6 +5,7 @@ class VueAerienne {
     constructor(){
         this.fltTempsActivation = 0;
         this.booVueActive = false;
+        this.booTricheActive = false;
         this.cameraDepart = creerCamera();
         
     }
@@ -14,15 +15,8 @@ class VueAerienne {
 
         objScene3D.tabObjets3D[2].booVisible = false;
 
-        var index = 0;
-        var dimension = objScene3D.tabObjets3D.length;
-        for (; index < dimension; index++) {
-            var obj3D = objScene3D.tabObjets3D[index];
-            //Mur destructible a cette position, donc devant lui
-            if (obj3D.strType != "mur" && obj3D.strType != "plat") { //Tempo texure actuel
-                obj3D.booVisible = false;
-            }
-        }
+        this.modifieVisibilite();
+
         setPositionsCameraXYZ(getPositionsCameraXYZ(objScene3D.camera), this.cameraDepart);
         setCiblesCameraXYZ(getCiblesCameraXYZ(objScene3D.camera), this.cameraDepart);
         setOrientationsXYZ(getOrientationsXYZ(objScene3D.camera), this.cameraDepart);
@@ -35,19 +29,34 @@ class VueAerienne {
     desactiveVueAerienne() {
         this.booVueActive = false;
 
+        //Désactive triche si activé
+        if (this.booTricheActive) {
+            this.triche();
+        } 
+
         objScene3D.tabObjets3D[2].booVisible = true;
 
+        this.modifieVisibilite();
+
+        setPositionsCameraXYZ(getPositionsCameraXYZ(this.cameraDepart), objScene3D.camera);
+        setCiblesCameraXYZ(getCiblesCameraXYZ(this.cameraDepart), objScene3D.camera);
+    }
+
+    modifieVisibilite() {
         var index = 0;
         var dimension = objScene3D.tabObjets3D.length;
         for (; index < dimension; index++) {
             var obj3D = objScene3D.tabObjets3D[index];
             //Mur destructible a cette position, donc devant lui
             if (obj3D.strType != "mur" && obj3D.strType != "plat") { //Tempo texure actuel
-                obj3D.booVisible = true;
+                obj3D.booVisible = obj3D.booVisible ? false : true;
             }
         }
+    }
 
-        setPositionsCameraXYZ(getPositionsCameraXYZ(this.cameraDepart), objScene3D.camera);
-        setCiblesCameraXYZ(getCiblesCameraXYZ(this.cameraDepart), objScene3D.camera);
+    triche() {
+        this.booTricheActive = this.booTricheActive ? false : true;
+        this.modifieVisibilite();
+        //Pensé a la flèche de direction
     }
 }

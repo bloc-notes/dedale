@@ -69,6 +69,8 @@ function initAnimation(tabDesImage) {
     objProgShaders = initShaders(objgl);
     objScene3D = initScene3D(objgl); // Créer la scène
 
+    initialiseNiveau();
+
     dessiner(objgl, objProgShaders, objScene3D);
     animer();
 }
@@ -110,24 +112,7 @@ function initScene3D(objgl) {
             }
         }
     }
-
-    // Créer le trésor (maillage tempo et place défini tempo)
-    var obj3DTresor = creerObj3DTresor(objgl, 22, 12, TEX_SOL, [0.8, 0.6, 0.1, 1]);
-    tabObjets3D.push(obj3DTresor);
-
-    //Ajouter une flèche ... tempo
-    var obj3DFleche = creerObj3DFleches(objgl, 17,12, TEX_SOL);
-    //var fltAngleY = getAngleY(obj3DFleche.transformations) + 180;
-    //setAngleY(fltAngleY, obj3DFleche.transformations);
-
-    setPositionX(17.5, obj3DFleche.transformations);
-    //setPositionY(1, obj3DFleche.transformations);
-    setPositionZ(12.5, obj3DFleche.transformations);
     
-    tabObjets3D.push(obj3DFleche);
-
-    //var fltAngleY = getAngleY(obj3DFleche.transformations) - initialiseFleche();
-    //setAngleY(fltAngleY, obj3DFleche.transformations);
 
     var obj3DRecepteur = creerObj3DRecepteur(objgl, 16, 12, TEX_SOL);
     tabObjets3D.push(obj3DRecepteur);
@@ -135,7 +120,6 @@ function initScene3D(objgl) {
     var obj3DTransporteur = creerObj3DTransporteur(objgl, 16, 10, TEX_SOL);
     tabObjets3D.push(obj3DTransporteur);
     
-
 
     // Mettre les objets 3D sur la scène
     objScene3D.tabObjets3D = tabObjets3D;
@@ -146,8 +130,6 @@ function initScene3D(objgl) {
     var camera = creerCamera();
     setPositionsCameraXYZ([15.5, 1, 16], camera);
     setCiblesCameraXYZ([15, 1, 0], camera);
-    //setPositionsCameraXYZ([15.5, 30, 16], camera);
-    //setCiblesCameraXYZ([15, 0, 16], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
     // Mettre la caméra sur la scène
@@ -302,42 +284,49 @@ function dessiner(objgl, objProgShaders, objScene3D) {
 }
 
 function deplacerCamera(eventCode) {
+    var clef = eventCode.keyCode;
     var camera = objScene3D.camera;
+    console.log(clef);
 
-
-    if (eventCode == 32) {
+    if ((clef == 32) && (eventCode.ctrlKey == true) && (eventCode.shiftKey == true)) {
+        //objVueAerienne = new VueAerienne();
+        if (objVueAerienne.booVueActive) {
+            objVueAerienne.triche();
+        }
+    }
+    else if (clef == 32) {
         tempoTenteOuvrirMur();
 
     }
-    else if (eventCode == 72) {
+    else if (clef == 72) {
         if (!objVueAerienne.booVueActive){
             objVueAerienne.activeVueAerienne();
         }
         
     }
-    else if (eventCode == 66) {
+    else if (clef == 66) {
         if (objVueAerienne.booVueActive){
             objVueAerienne.desactiveVueAerienne();
         }
         
     }
-    else if (eventCode == 37 || eventCode == 39) {
+    else if (clef == 37 || clef == 39) {
         // 37:  Flèche-à-gauche; 39:Flèche-à-droite
         var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
         var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-        var intDirection = (eventCode == 37) ? -1 : 1;
+        var intDirection = (clef == 37) ? -1 : 1;
         var fltAngle = intDirection * Math.PI / 45; // 90 -> 2 degrés
         var fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
         var fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
         setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
         setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
     }
-    else if (eventCode == 38 || eventCode == 40) {
+    else if (clef == 38 || clef == 40) {
         // 38:  Flèche-en-haut; 40:Flèche-en-bas
         var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
         var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
         var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-        var intDirection = (eventCode == 38) ? 1 : -1;
+        var intDirection = (clef == 38) ? 1 : -1;
 
         var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
         var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
