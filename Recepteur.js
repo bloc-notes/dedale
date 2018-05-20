@@ -43,7 +43,7 @@ function creerVertexRecepteur(objgl, fltPositionX, fltPositionZ, fltPositionY) {
 function creerCouleursRecepteur(objgl, tabCouleur) {
     tabCouleurs = [];
     var i;
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < 8; i++)
         tabCouleurs = tabCouleurs.concat(tabCouleur);
 
     var objCouleursRecepteur = objgl.createBuffer();

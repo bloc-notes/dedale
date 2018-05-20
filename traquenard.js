@@ -130,6 +130,9 @@ function initScene3D(objgl) {
 
     var obj3DRecepteur = creerObj3DRecepteur(objgl, 16, 12, TEX_SOL);
     tabObjets3D.push(obj3DRecepteur);
+
+    var obj3DTransporteur = creerObj3DTransporteur(objgl, 16, 10, TEX_SOL);
+    tabObjets3D.push(obj3DTransporteur);
     
 
 
@@ -141,7 +144,7 @@ function initScene3D(objgl) {
     // La caméra
     var camera = creerCamera();
     setPositionsCameraXYZ([15.5, 1, 16], camera);
-    setCiblesCameraXYZ([15, 1, 15], camera);
+    setCiblesCameraXYZ([15, 1, 0], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
     // Mettre la caméra sur la scène
