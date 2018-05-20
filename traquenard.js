@@ -115,8 +115,22 @@ function initScene3D(objgl) {
     tabObjets3D.push(obj3DTresor);
 
     //Ajouter une flèche ... tempo
-    var obj3DFleche = creerObj3DFleches(objgl, 22,10, TEX_SOL);
+    var obj3DFleche = creerObj3DFleches(objgl, 17,12, TEX_SOL);
+    //var fltAngleY = getAngleY(obj3DFleche.transformations) + 180;
+    //setAngleY(fltAngleY, obj3DFleche.transformations);
+
+    setPositionX(17.5, obj3DFleche.transformations);
+    //setPositionY(1, obj3DFleche.transformations);
+    setPositionZ(12.5, obj3DFleche.transformations);
+    
     tabObjets3D.push(obj3DFleche);
+
+    //var fltAngleY = getAngleY(obj3DFleche.transformations) - initialiseFleche();
+    //setAngleY(fltAngleY, obj3DFleche.transformations);
+
+    var obj3DRecepteur = creerObj3DRecepteur(objgl, 16, 12, TEX_SOL);
+    tabObjets3D.push(obj3DRecepteur);
+    
 
 
     // Mettre les objets 3D sur la scène
@@ -149,6 +163,20 @@ function animer() {
 
 function mettreAjourAnimation(objScene3D) {
 
+    var index = 0;
+        var dimension = objScene3D.tabObjets3D.length;
+        var booCollision = true;
+        for (; (index < dimension) && booCollision; index++) {
+            if (objScene3D.tabObjets3D[index].strType == "fleche") {
+    var fltAngleY = getAngleY(objScene3D.tabObjets3D[index].transformations) + 0.01;
+    var fltAngleX = getPositionX(objScene3D.tabObjets3D[index].transformations);
+    console.log(fltAngleX);
+    //setAngleY(fltAngleY, objScene3D.tabObjets3D[index].transformations);
+    //setPositionX(fltAngleX, objScene3D.tabObjets3D[index].transformations);
+            }
+        }
+
+        
 }
 
 function effacerCanevas(objgl) {

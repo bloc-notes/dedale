@@ -1,5 +1,5 @@
 //Classe Joueur.js
-//Jérémie Lapointe && Philippe Doyon
+//Philippe Doyon
 
 class Joueur {
     constructor(tabDedale) {

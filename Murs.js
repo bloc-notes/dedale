@@ -1,5 +1,5 @@
 //Murs.js
-//Jérémie Lapointe && Philippe Doyon
+//Philippe Doyon
 //Adaptation du fichier du même nom d'Alain Loyer
 
 function creerObj3DMurs(objgl, fltPositionX, fltPositionZ, intNoTexture) {
