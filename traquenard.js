@@ -8,40 +8,41 @@ var objProgShaders = null;
 var objScene3D = null;
 var objCycleAnimation = null;
 var tabImage = null;
+var objNiveau = null;
 var objJoueur = null;
 var objVueAerienne = null;
 var tableauDedale = [
-    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-    [3, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 3],
-    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 3],
-    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
-    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 3],
-    [3, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 3],
-    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 4, 3, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 2, 1, 3],
-    [3, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 1, 4, 4, 4, 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 3],
-    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 4, 3, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 2, 1, 3],
-    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 3, 3, 3, 3, 3, 1, 2, 1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 3],
-    [3, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 3],
-    [3, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 3],
-    [3, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3],
-    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+	[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+	[3,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,1,2,2,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,1,1,1,1,2,1,1,1,1,1,3],
+	[3,1,2,1,2,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,2,2,1,2,1,2,2,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,1,1,2,1,2,1,2,1,2,1,2,1,1,1,1,1,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,1,2,1,2,1,2,2,2,2,2,2,2,1,3],
+	[3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3],
+	[3,1,2,2,2,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,3],
+	[3,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,3],
+	[3,1,2,1,1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2,2,1,2,2,2,1,2,1,3],
+	[3,1,2,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,2,1,3],
+	[3,1,2,2,2,1,2,2,2,2,2,2,1,3,3,3,3,3,1,2,1,1,2,2,2,1,2,2,2,1,3],
+	[3,1,1,1,1,1,1,1,1,1,1,1,1,3,4,4,4,3,1,2,2,2,2,1,1,1,2,1,2,1,3],
+	[3,2,2,2,2,1,2,2,2,2,2,2,1,1,4,4,4,3,1,1,1,1,1,1,2,1,1,1,2,1,3],
+	[3,1,1,1,1,1,1,1,1,1,1,1,1,3,4,4,4,3,1,2,2,2,2,1,1,1,2,1,2,1,3],
+	[3,1,2,2,2,1,2,2,2,2,2,2,1,3,3,3,3,3,1,2,1,1,2,2,2,1,2,2,2,1,3],
+	[3,1,2,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,2,1,3],
+	[3,1,2,1,1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2,2,1,2,2,2,1,2,1,3],
+	[3,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,3],
+	[3,1,2,2,2,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,3],
+	[3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,1,2,1,2,1,2,2,2,2,2,2,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,1,1,2,1,2,1,2,1,2,1,2,1,1,1,1,1,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,3],
+	[3,1,2,1,2,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,2,2,1,2,1,2,2,2,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,1,1,1,1,2,1,1,1,1,1,3],
+	[3,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,1,2,2,2,1,3],
+	[3,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,2,1,3],
+	[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]
 ];
 
 //constante texture
@@ -69,7 +70,11 @@ function initAnimation(tabDesImage) {
     objProgShaders = initShaders(objgl);
     objScene3D = initScene3D(objgl); // Créer la scène
 
+    console.log('Avant: ' + objScene3D.tabObjets3D.length);
+    objNiveau = new Niveau(1);
     initialiseNiveau();
+
+    console.log('Après: ' + objScene3D.tabObjets3D.length);
 
     dessiner(objgl, objProgShaders, objScene3D);
     animer();
@@ -124,18 +129,22 @@ function initScene3D(objgl) {
     // Mettre les objets 3D sur la scène
     objScene3D.tabObjets3D = tabObjets3D;
 
+    
+
+
     objJoueur = new Joueur(tableauDedale);
+
 
     // La caméra
     var camera = creerCamera();
     setPositionsCameraXYZ([15.5, 1, 16], camera);
-    setCiblesCameraXYZ([15, 1, 0], camera);
+    setCiblesCameraXYZ([15.5, 1, 0], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
     // Mettre la caméra sur la scène
     objScene3D.camera = camera;
 
-    objVueAerienne = new VueAerienne();
+    
 
     return objScene3D;
 }
@@ -152,19 +161,6 @@ function animer() {
 }
 
 function mettreAjourAnimation(objScene3D) {
-
-    var index = 0;
-        var dimension = objScene3D.tabObjets3D.length;
-        var booCollision = true;
-        for (; (index < dimension) && booCollision; index++) {
-            if (objScene3D.tabObjets3D[index].strType == "fleche") {
-    var fltAngleY = getAngleY(objScene3D.tabObjets3D[index].transformations) + 0.01;
-    var fltAngleX = getPositionX(objScene3D.tabObjets3D[index].transformations);
-    console.log(fltAngleX);
-    //setAngleY(fltAngleY, objScene3D.tabObjets3D[index].transformations);
-    //setPositionX(fltAngleX, objScene3D.tabObjets3D[index].transformations);
-            }
-        }
 
         
 }
@@ -286,17 +282,11 @@ function dessiner(objgl, objProgShaders, objScene3D) {
 function deplacerCamera(eventCode) {
     var clef = eventCode.keyCode;
     var camera = objScene3D.camera;
-    console.log(clef);
 
     if ((clef == 32) && (eventCode.ctrlKey == true) && (eventCode.shiftKey == true)) {
-        //objVueAerienne = new VueAerienne();
         if (objVueAerienne.booVueActive) {
             objVueAerienne.triche();
         }
-    }
-    else if (clef == 32) {
-        tempoTenteOuvrirMur();
-
     }
     else if (clef == 72) {
         if (!objVueAerienne.booVueActive){
@@ -310,88 +300,107 @@ function deplacerCamera(eventCode) {
         }
         
     }
-    else if (clef == 37 || clef == 39) {
-        // 37:  Flèche-à-gauche; 39:Flèche-à-droite
-        var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-        var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-        var intDirection = (clef == 37) ? -1 : 1;
-        var fltAngle = intDirection * Math.PI / 45; // 90 -> 2 degrés
-        var fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
-        var fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
-        setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-        setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
-    }
-    else if (clef == 38 || clef == 40) {
-        // 38:  Flèche-en-haut; 40:Flèche-en-bas
-        var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-        var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-        var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-        var intDirection = (clef == 38) ? 1 : -1;
-
-        var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-        var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
-
-        //Permet de laisser une distance entre le mur et le joueur
-        var fltXPrimeBonus = intDirection * 0.3 * Math.cos(Math.acos(fltX / fltRayon));
-        var fltZPrimeBonus = intDirection * 0.3 * Math.cos(Math.acos(fltZ / fltRayon));
-
-        // Positions de la caméra
-        var fltXCamera = getPositionX(camera) + fltXPrime;
-        var fltZCamera = getPositionZ(camera) + fltZPrime;
-
-        // Limites du mur
-        
-        //var fltLimiteNord = objJoueur.limiteDeplacementJoueur(Nord) + 0.1;
-        var fltLimiteEst = objJoueur.limiteDeplacementJoueur(Est) - 0.1;
-        //var fltLimiteSud = objJoueur.limiteDeplacementJoueur(Sud) - 0.1;
-        var fltLimiteOuest = objJoueur.limiteDeplacementJoueur(Ouest) + 0.1;
-
-        var objCamFutur = new Object();
-        objCamFutur.x = getPositionX(camera) + fltXPrimeBonus;
-        objCamFutur.y = getPositionY(camera); 
-        objCamFutur.z = getPositionZ(camera) + fltZPrimeBonus;
-
-        var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCamFutur);
-
-        if (binAucuneCollision) {
-            setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
-            setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
-            setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-            setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+    else if (!objVueAerienne.booVueActive) {
+        if (clef == 32) {
+            tempoTenteOuvrirMur();
+    
         }
-        else {
-            if (fltXCamera <= fltLimiteOuest || fltXCamera >= fltLimiteEst) {
-                // On longe le mur ouest ou est 
-                fltZPrime = 0.2 * ((fltZ < 0) ? -1 : 1); fltXPrime = 0.0;
-                fltZPrimeBonus = 0.3 * ((fltZ < 0) ? -1 : 1); fltXPrimeBonus = 0.0;
-            }
-            else { // On longe le mur sud ou nord
-                fltXPrime = 0.2 * ((fltX < 0) ? -1 : 1); fltZPrime = 0.0;
-                fltXPrimeBonus = 0.3 * ((fltZ < 0) ? -1 : 1); fltZPrimeBonus = 0.0;
-            }
+        else if (clef == 37 || clef == 39) {
+            // 37:  Flèche-à-gauche; 39:Flèche-à-droite
+            var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+            var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+            var intDirection = (clef == 37) ? -1 : 1;
+            var fltAngle = intDirection * Math.PI / 45; // 90 -> 2 degrés
+            var fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
+            var fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
+            setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+            setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
 
-            // Nouvelles positions de la caméra
-            fltXCamera = getPositionX(camera) + fltXPrime;
-            fltZCamera = getPositionZ(camera) + fltZPrime;
+            //setPositionsXYZ([getPositionCameraX(objScene3D.camera), 1.8 ,getPositionCameraZ(objScene3D.camera)], objScene3D.tabObjets3D.slice(0,1).shift().transformations);
 
+            //var fltAngleY = getAngleZ(objScene3D.tabObjets3D.slice(0,1).shift().transformations) + initialiseFleche(getPositionCameraY(objScene3D.camera), getPositionCameraZ(objScene3D.camera),getCibleCameraY(objScene3D.camera), getCibleCameraZ(objScene3D.camera));
+            //setAngleZ(fltAngleY, objScene3D.tabObjets3D.slice(0,1).shift().transformations);
+        }
+        else if (clef == 38 || clef == 40) {
+            // 38:  Flèche-en-haut; 40:Flèche-en-bas
+            var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+            var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+            var fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
+            var intDirection = (clef == 38) ? 1 : -1;
+    
+            var fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
+            var fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+    
+            //Permet de laisser une distance entre le mur et le joueur
+            var fltXPrimeBonus = intDirection * 0.3 * Math.cos(Math.acos(fltX / fltRayon));
+            var fltZPrimeBonus = intDirection * 0.3 * Math.cos(Math.acos(fltZ / fltRayon));
+    
+            // Positions de la caméra
+            var fltXCamera = getPositionX(camera) + fltXPrime;
+            var fltZCamera = getPositionZ(camera) + fltZPrime;
+    
+            // Limites du mur
+            
+            //var fltLimiteNord = objJoueur.limiteDeplacementJoueur(Nord) + 0.1;
+            var fltLimiteEst = objJoueur.limiteDeplacementJoueur(Est) - 0.1;
+            //var fltLimiteSud = objJoueur.limiteDeplacementJoueur(Sud) - 0.1;
+            var fltLimiteOuest = objJoueur.limiteDeplacementJoueur(Ouest) + 0.1;
+    
             var objCamFutur = new Object();
             objCamFutur.x = getPositionX(camera) + fltXPrimeBonus;
             objCamFutur.y = getPositionY(camera); 
             objCamFutur.z = getPositionZ(camera) + fltZPrimeBonus;
-
+    
             var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCamFutur);
-            // Longer le mur s'il ne rencontre pas un nouveau mur
+    
             if (binAucuneCollision) {
                 setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
                 setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
                 setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
                 setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
             }
+            else {
+                if (fltXCamera <= fltLimiteOuest || fltXCamera >= fltLimiteEst) {
+                    // On longe le mur ouest ou est 
+                    fltZPrime = 0.2 * ((fltZ < 0) ? -1 : 1); fltXPrime = 0.0;
+                    fltZPrimeBonus = 0.3 * ((fltZ < 0) ? -1 : 1); fltXPrimeBonus = 0.0;
+                }
+                else { // On longe le mur sud ou nord
+                    fltXPrime = 0.2 * ((fltX < 0) ? -1 : 1); fltZPrime = 0.0;
+                    fltXPrimeBonus = 0.3 * ((fltZ < 0) ? -1 : 1); fltZPrimeBonus = 0.0;
+                }
+    
+                // Nouvelles positions de la caméra
+                fltXCamera = getPositionX(camera) + fltXPrime;
+                fltZCamera = getPositionZ(camera) + fltZPrime;
+    
+                var objCamFutur = new Object();
+                objCamFutur.x = getPositionX(camera) + fltXPrimeBonus;
+                objCamFutur.y = getPositionY(camera); 
+                objCamFutur.z = getPositionZ(camera) + fltZPrimeBonus;
+    
+                var binAucuneCollision = objJoueur.aucuneCollision(objScene3D.tabObjets3D,objCamFutur);
+                // Longer le mur s'il ne rencontre pas un nouveau mur
+                if (binAucuneCollision) {
+                    setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
+                    setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
+                    setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+                    setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+                }
+            }
+            setPositionsXYZ([getPositionCameraX(objScene3D.camera), 1.8 ,getPositionCameraZ(objScene3D.camera)], objScene3D.tabObjets3D.slice(0,1).shift().transformations);
+
+            //var fltAngleY = getAngleZ(objScene3D.tabObjets3D.slice(0,1).shift().transformations) + initialiseFleche(getPositionCameraY(objScene3D.camera), getPositionCameraZ(objScene3D.camera),getCibleCameraY(objScene3D.camera), getCibleCameraZ(objScene3D.camera));
+            //setAngleZ(fltAngleY, objScene3D.tabObjets3D.slice(0,1).shift().transformations);
         }
+        
     }
+    
     objJoueur.majPosition(getPositionCameraX(camera), getPositionCameraZ(camera));
 
-    deroulementNiveau();
+    
+    objNiveau.deroulementNiveau();
+    //deroulementNiveau();
 
     effacerCanevas(objgl);
     dessiner(objgl, objProgShaders, objScene3D);

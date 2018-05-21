@@ -25,24 +25,14 @@ function creerObj3DFleches(objgl, fltPositionX, fltPositionZ, intNoTexture) {
 function creerVertexFleches(objgl, fltPositionX, fltPositionZ) {
     var tabVertex = [
         // Face avant (Z=0)
-        /*
-        0.8 + fltPositionX, 1.8, 0.45 + fltPositionZ,   // 1: Coin haut droit
-        0.8 + fltPositionX, 1.2, 0.45 + fltPositionZ,  // 2: Coin bas droit
-        0.2 + fltPositionX, 1.5, 0.45 + fltPositionZ,  // 3: Coin haut gauche 
+        0.3 , 0.25, -0.05,   // 1: Coin haut droit
+        0.3 , -0.25, -0.05,  // 2: Coin bas droit
+        -0.3, 0.05, -0.05,  // 3: Coin haut gauche 
 
         // Face arrière (Z=0.8) 
-        0.8 + fltPositionX, 1.8, 0.55 + fltPositionZ,   // 5: Coin haut droit
-        0.8 + fltPositionX, 1.2, 0.55 + fltPositionZ,  // 6: Coin bas droit
-        0.2 + fltPositionX, 1.5, 0.55 + fltPositionZ,  // 7: Coin haut gauche
-        */
-        0.3 , 1.8, -0.05,   // 1: Coin haut droit
-        0.3 , 1.2, -0.05,  // 2: Coin bas droit
-        -0.3, 1.5, -0.05,  // 3: Coin haut gauche 
-
-        // Face arrière (Z=0.8) 
-        0.3, 1.8, 0.05,   // 5: Coin haut droit
-        0.3, 1.2, 0.05,  // 6: Coin bas droit
-        -0.3, 1.5, 0.05,  // 7: Coin haut gauche
+        0.3, 0.25, 0.05,   // 5: Coin haut droit
+        0.3, -0.25, 0.05,  // 6: Coin bas droit
+        -0.3, 0.05, 0.05,  // 7: Coin haut gauche
 
     ];
     var objFleches = objgl.createBuffer();

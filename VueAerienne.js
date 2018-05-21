@@ -13,7 +13,10 @@ class VueAerienne {
     activeVueAerienne() {
         this.booVueActive = true;
 
-        objScene3D.tabObjets3D[2].booVisible = false;
+        objScene3D.tabObjets3D[3].booVisible = false;
+        objScene3D.tabObjets3D.slice(0,1).shift().booVisible = true;
+
+        
 
         this.modifieVisibilite();
 
@@ -21,8 +24,10 @@ class VueAerienne {
         setCiblesCameraXYZ(getCiblesCameraXYZ(objScene3D.camera), this.cameraDepart);
         setOrientationsXYZ(getOrientationsXYZ(objScene3D.camera), this.cameraDepart);
 
-        setPositionsCameraXYZ([15.5, 45, 15.5], objScene3D.camera);
+        setPositionsCameraXYZ([15.5, 40, 15.5], objScene3D.camera);
         setCiblesCameraXYZ([15.5, 0, 15.499999999999999], objScene3D.camera);
+
+        
 
     }
 
@@ -34,7 +39,8 @@ class VueAerienne {
             this.triche();
         } 
 
-        objScene3D.tabObjets3D[2].booVisible = true;
+        objScene3D.tabObjets3D[3].booVisible = true;
+        objScene3D.tabObjets3D.slice(0,1).shift().booVisible = false;
 
         this.modifieVisibilite();
 
@@ -43,7 +49,7 @@ class VueAerienne {
     }
 
     modifieVisibilite() {
-        var index = 0;
+        var index = 1;
         var dimension = objScene3D.tabObjets3D.length;
         for (; index < dimension; index++) {
             var obj3D = objScene3D.tabObjets3D[index];
@@ -52,6 +58,8 @@ class VueAerienne {
                 obj3D.booVisible = obj3D.booVisible ? false : true;
             }
         }
+
+        
     }
 
     triche() {

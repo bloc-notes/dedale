@@ -164,4 +164,8 @@ class Joueur {
 
         return objPosition;
     }
+
+    estSur(xObjet, zObjet) {
+        return ((Math.floor(this.fltPositionX) == xObjet) && (Math.floor(this.fltPositionZ) == zObjet));
+    }
 }

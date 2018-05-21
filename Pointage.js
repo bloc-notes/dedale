@@ -13,4 +13,12 @@ class Pointage {
     tresorTrouver() {
         this.intNbPoint += (10 * this.fltTemps);
     }
+
+    recommenceNiveau() {
+        this.intNbPoint -= 200;
+    }
+
+    ouvreMur() {
+        this.intNbPoint -= 50;
+    }
 }
