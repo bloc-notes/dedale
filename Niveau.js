@@ -14,9 +14,6 @@ class Niveau {
         this.objPositionTresor.xPosition = objPosition.x;
         this.objPositionTresor.zPosition = objPosition.z;
 
-        console.log('XTresor: ' + this.objPositionTresor.xPosition);
-        console.log('ZTresor: ' + this.objPositionTresor.zPosition);
-
         var obj3DTresor = creerObj3DTresor(objgl, this.objPositionTresor.xPosition, this.objPositionTresor.zPosition, TEX_SOL, [0.8, 0.6, 0.1, 1]);
         this.tabObj3DNiveau.push(obj3DTresor);
         objScene3D.tabObjets3D.push(obj3DTresor);
@@ -24,30 +21,48 @@ class Niveau {
         //Transporteur
         this.intNbTransporteur = Math.floor(this.intNiveau / 2);
 
-        //let intIndex = 0;
+        let index = 0;
 
+        for (; index < this.intNbTransporteur; index++) {
+            let objPos = this.positionDisponible();
+            var xPositionTransporteur = objPos.x;
+            var zPositionTransporteur = objPos.z;
 
-        //var obj3DTransporteur = creerObj3DTransporteur(objgl, 16, 10, TEX_SOL);
-        //tabObjets3D.push(obj3DTransporteur);
+            var obj3DTransporteur = creerObj3DTransporteur(objgl, xPositionTransporteur, zPositionTransporteur, TEX_SOL);
+
+            this.tabObj3DNiveau.push(obj3DTransporteur);
+            objScene3D.tabObjets3D.push(obj3DTransporteur);
+        }
+
+        //Récepteur
+        this.intNbRecepteur = (this.intNiveau - 1);
+
+        index = 0;
+        for (; index < this.intNbRecepteur; index++) {
+            let objPos = this.positionDisponible();
+            var xPositionRecepteur = objPos.x;
+            var zPositionRecepteur = objPos.z;
+
+            var obj3DRecepteur = creerObj3DRecepteur(objgl, xPositionRecepteur, zPositionRecepteur, TEX_SOL);
+
+            this.tabObj3DNiveau.push(obj3DRecepteur);
+            objScene3D.tabObjets3D.push(obj3DRecepteur);
+        }
         
         //Flèche
         this.intNbFleche = ((10 - this.intNiveau) * 2);
         
-        let index = 0;
+        index = 0;
         for (; index < this.intNbFleche; index++) {
-            var xPositionFleche = 0;
-            var zPositionFleche = 0;
-
             let objPos = this.positionDisponible();
-            xPositionFleche = objPos.x;
-            zPositionFleche = objPos.z;
+            var xPositionFleche = objPos.x;
+            var zPositionFleche = objPos.z;
 
             var obj3DFleche = creerObj3DFleches(objgl, xPositionFleche, zPositionFleche, TEX_SOL);
 
             setPositionsXYZ([(xPositionFleche + 0.5),1.7,(zPositionFleche + 0.5)], obj3DFleche.transformations);
 
             this.tabObj3DNiveau.push(obj3DFleche);
-            console.log(objScene3D.tabObjets3D.length);
             objScene3D.tabObjets3D.push(obj3DFleche);
 
             var fltAngleY = getAngleY(obj3DFleche.transformations) - initialiseFleche((xPositionFleche + 0.5),(zPositionFleche + 0.5), (this.objPositionTresor.xPosition + 0.5),(this.objPositionTresor.zPosition + 0.5));
@@ -55,19 +70,24 @@ class Niveau {
 
         }
         
-        //Récepteur
-        this.intNbRecepteur = (this.intNiveau - 1);
-
+        
     }
 
     deroulementNiveau() {
         if (!this.booSortieEnclos) {
-            tempoFermeEnclos();
+            this.tempoFermeEnclos();
         }
         else {
             if (objJoueur.estSur(this.objPositionTresor.xPosition, this.objPositionTresor.zPosition)) {
                 console.log('Trésor trouvé');
             }
+        }
+    }
+
+    tempoFermeEnclos() {
+        if (objJoueur.fltPositionZ < 13) {
+            objScene3D.tabObjets3D.push(creerObj3DMurs(objgl, 15, 13, TEX_MUR));
+            this.booSortieEnclos = true;
         }
     }
 
@@ -80,42 +100,56 @@ class Niveau {
             xTempo = Math.floor(Math.random() * 30) + 1;
             zTempo = Math.floor(Math.random() * 30) + 1;
 
-            var index = 0;
-            var dimension = objScene3D.tabObjets3D.length;
-            var booTrouver = false;
-            for (; (index < dimension) && !booTrouver; index++) {
-                var obj3D = objScene3D.tabObjets3D[index];
-                if (!((obj3D.strType == "plat") && (obj3D.intNoTexture != 2))) {
-                    if (obj3D.fltPositionX == xTempo && obj3D.fltPositionZ == zTempo) {
-                        booTrouver = true;
-                    }
-                }   
-            }
+            //Pas dans l'enclos
+            if (!(((xTempo >= 13) && (xTempo <= 17)) && ((zTempo >= 13) && (zTempo <= 17)))) {
+                var index = 0;
+                var dimension = objScene3D.tabObjets3D.length;
+                var booTrouver = false;
+                for (; (index < dimension) && !booTrouver; index++) {
+                    var obj3D = objScene3D.tabObjets3D[index];
+                    if (!(obj3D.strType == "plat")) {
+                        if (obj3D.fltPositionX == xTempo && obj3D.fltPositionZ == zTempo) {
+                            booTrouver = true;
+                        }
+                    }   
+                }
 
-            booPositionValide = booTrouver ? false : true;
+                booPositionValide = booTrouver ? false : true;
+            }
         }
-        console.log('Xtresor dedans: ' + xTempo);
-        console.log('ZTresor dedans: ' + zTempo);
+
         var objPos = new Object();
         objPos.x = xTempo;
         objPos.z = zTempo;
         return objPos;
+    }
+
+    tempoTenteOuvrirMur() {
+        var booPeutOuvrir = false;
+    
+        if (this.intNbOuvreur > 0) {
+            var camera = objScene3D.camera;
+            var intDirection = objJoueur.directionRegard(getCibleCameraX(camera), getCibleCameraZ(camera));
+    
+            var objResultat = objJoueur.MurDevantDestructible(objScene3D.tabObjets3D);
+            if (objResultat.booTrouver) {
+                objScene3D.tabObjets3D.splice(objResultat.index,1);
+                this.intNbOuvreur--;
+                console.log("Pouff Magie!!");
+            }
+            else {
+                console.log("Ne peut pas ouvrir de mur :(");
+            }
+        }
+        else {
+            console.log('Nb ouvreur insufissant');
+        }
     }
 }
 
 var booSortieEnclos = false;
 var objPositionTresor = new Object();
 
-function deroulementNiveau() {
-    if (!booSortieEnclos) {
-        tempoFermeEnclos();
-    }
-    else {
-        if (objJoueur.estSur(objPositionTresor.xPosition, objPositionTresor.zPosition)) {
-            console.log('Trésor trouvé');
-        }
-    }
-}
 
 function initialiseNiveau() {
     /*
@@ -154,36 +188,9 @@ function initialiseNiveau() {
     var fltAngleY = getAngleZ(obj3DFlecheAe.transformations) + initialiseFleche(getPositionCameraY(objScene3D.camera), getPositionCameraZ(objScene3D.camera),getCibleCameraY(objScene3D.camera), getCibleCameraZ(objScene3D.camera));
     setAngleZ(fltAngleY, obj3DFlecheAe.transformations);
 
-    
-
-
 }
 
 
-function tempoFermeEnclos() {
-    if (objJoueur.fltPositionZ < 13) {
-        objScene3D.tabObjets3D.push(creerObj3DMurs(objgl, 15, 13, TEX_MUR));
-        booSortieEnclos = true;
-    }
-}
-
-function tempoTenteOuvrirMur() {
-    var booPeutOuvrir = false;
-
-    if (objJoueur.intNbOuvreur > 0) {
-        var camera = objScene3D.camera;
-        var intDirection = objJoueur.directionRegard(getCibleCameraX(camera), getCibleCameraZ(camera));
-
-        var objResultat = objJoueur.MurDevantDestructible(objScene3D.tabObjets3D);
-        if (objResultat.booTrouver) {
-            objScene3D.tabObjets3D.splice(objResultat.index,1);
-            console.log("Pouff Magie!!");
-        }
-        else {
-            console.log("Ne peut pas ouvrir de mur :(");
-        }
-    }
-}
 
 //Depart -> flèche Direction -> Trésor (Exemple)
 function initialiseFleche(xDepart, zDepart, xDirection, zDirection) {
@@ -191,7 +198,6 @@ function initialiseFleche(xDepart, zDepart, xDirection, zDirection) {
     var fltAngleExterieurDeg = 0; 
 
     if ((zDirection <= zDepart) && (xDirection > xDepart)) {
-        console.log('cas 1');
         var xPointRec = xDirection;
         var zPointRec = zDepart;
 
@@ -203,7 +209,6 @@ function initialiseFleche(xDepart, zDepart, xDirection, zDirection) {
         fltAngleExterieurDeg = 180 - fltAngleInterieurDeg;
     }
     else if ((zDirection > zDepart) && (xDirection >= xDepart)) {
-        console.log('cas 2');
         var xPointRec = xDepart;
         var zPointRec = zDirection;
 
@@ -216,7 +221,6 @@ function initialiseFleche(xDepart, zDepart, xDirection, zDirection) {
         
     }
     else if ((xDirection < xDepart) && (zDirection >= zDepart)) {
-        console.log('cas 3');
         var xPointRec = xDirection;
         var zPointRec = zDepart;
 
@@ -228,7 +232,6 @@ function initialiseFleche(xDepart, zDepart, xDirection, zDirection) {
         fltAngleExterieurDeg = -fltAngleInterieurDeg;
     }
     else if ((xDirection <= xDepart) && (zDirection < zDepart)) {
-        console.log('cas 4');
         var xPointRec = xDepart;
         var zPointRec = zDirection;
 

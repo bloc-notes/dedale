@@ -70,11 +70,8 @@ function initAnimation(tabDesImage) {
     objProgShaders = initShaders(objgl);
     objScene3D = initScene3D(objgl); // Créer la scène
 
-    console.log('Avant: ' + objScene3D.tabObjets3D.length);
-    objNiveau = new Niveau(1);
+    objNiveau = new Niveau(5);
     initialiseNiveau();
-
-    console.log('Après: ' + objScene3D.tabObjets3D.length);
 
     dessiner(objgl, objProgShaders, objScene3D);
     animer();
@@ -117,21 +114,11 @@ function initScene3D(objgl) {
             }
         }
     }
-    
-
-    var obj3DRecepteur = creerObj3DRecepteur(objgl, 16, 12, TEX_SOL);
-    tabObjets3D.push(obj3DRecepteur);
-
-    var obj3DTransporteur = creerObj3DTransporteur(objgl, 16, 10, TEX_SOL);
-    tabObjets3D.push(obj3DTransporteur);
-    
 
     // Mettre les objets 3D sur la scène
     objScene3D.tabObjets3D = tabObjets3D;
 
     
-
-
     objJoueur = new Joueur(tableauDedale);
 
 
@@ -145,7 +132,6 @@ function initScene3D(objgl) {
     objScene3D.camera = camera;
 
     
-
     return objScene3D;
 }
 
@@ -302,7 +288,7 @@ function deplacerCamera(eventCode) {
     }
     else if (!objVueAerienne.booVueActive) {
         if (clef == 32) {
-            tempoTenteOuvrirMur();
+            objNiveau.tempoTenteOuvrirMur();
     
         }
         else if (clef == 37 || clef == 39) {
@@ -397,7 +383,6 @@ function deplacerCamera(eventCode) {
     }
     
     objJoueur.majPosition(getPositionCameraX(camera), getPositionCameraZ(camera));
-
     
     objNiveau.deroulementNiveau();
     //deroulementNiveau();

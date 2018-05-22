@@ -5,7 +5,6 @@ class Joueur {
     constructor(tabDedale) {
         this.fltPositionX = 1.5// tempo, ca va etre 16
         this.fltPositionZ = 1.5; // tempo, ca va etre 16
-        this.intNbOuvreur = 4;
         this.tabCarte = tabDedale;
         this.intDirection = -1;
         this.booImmobile = false;
@@ -97,7 +96,6 @@ class Joueur {
             //Ouest
             this.intDirection = 3;
         }
-        console.log(this.intDirection);
         return this.intDirection;
     }
 
@@ -166,6 +164,6 @@ class Joueur {
     }
 
     estSur(xObjet, zObjet) {
-        return ((Math.floor(this.fltPositionX) == xObjet) && (Math.floor(this.fltPositionZ) == zObjet));
+        return ((Math.floor(this.fltPositionX) == Math.floor(xObjet)) && (Math.floor(this.fltPositionZ) == Math.floor(zObjet)));
     }
 }
