@@ -1,5 +1,5 @@
 //Plat.js
-//Philippe Doyon && Jérémie Lapointe
+//Philippe Doyon
 //Adaptation du fichier Sol.js d'Alain Loyer
 
 function creerObj3DPlat(objgl, fltLargeur, fltProfondeur, intNoTexture, booSolCiel) {

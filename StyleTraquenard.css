@@ -10,3 +10,31 @@
 
 A:link IMG, A:visited IMG { border:none; }
 A:hover IMG { border-style:double; border-width:2px; border-color:Green;}
+
+canvas {
+    display: block;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  .container {
+      position: relative;
+      overflow: none;
+  }
+  
+  #divTempsNiveau {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 12%;
+      height: 12%;
+      z-index: 10;
+      overflow: hidden;
+  
+  }
+  
+  .floating-div {
+      position: absolute;
+      font: 20px Gill Sans MT;
+      color: darkgoldenrod;
+  }

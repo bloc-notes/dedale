@@ -16,8 +16,6 @@ class VueAerienne {
         objScene3D.tabObjets3D[3].booVisible = false;
         objScene3D.tabObjets3D.slice(0,1).shift().booVisible = true;
 
-        
-
         this.modifieVisibilite();
 
         setPositionsCameraXYZ(getPositionsCameraXYZ(objScene3D.camera), this.cameraDepart);
@@ -26,8 +24,6 @@ class VueAerienne {
 
         setPositionsCameraXYZ([15.5, 40, 15.5], objScene3D.camera);
         setCiblesCameraXYZ([15.5, 0, 15.499999999999999], objScene3D.camera);
-
-        
 
     }
 
@@ -59,7 +55,6 @@ class VueAerienne {
             }
         }
 
-        
     }
 
     triche() {

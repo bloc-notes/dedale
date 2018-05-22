@@ -7,6 +7,9 @@ class Niveau {
         this.objPositionTresor = new Object();
         this.tabObj3DNiveau = new Array();
         this.intNbOuvreur = Math.floor(((10 - this.intNiveau) / 2));
+        this.booTresorTrouve = false;
+
+        objPointage.intNbOuvreur = this.intNbOuvreur;
 
         //Trésor
         let objPosition = this.positionDisponible();
@@ -70,7 +73,6 @@ class Niveau {
 
         }
         
-        
     }
 
     deroulementNiveau() {
@@ -78,8 +80,12 @@ class Niveau {
             this.tempoFermeEnclos();
         }
         else {
+            //Si le trésor est trouvé
             if (objJoueur.estSur(this.objPositionTresor.xPosition, this.objPositionTresor.zPosition)) {
                 console.log('Trésor trouvé');
+                objPointage.tresorTrouver();
+                this.booTresorTrouve = true;
+
             }
         }
     }
@@ -124,17 +130,19 @@ class Niveau {
         return objPos;
     }
 
-    tempoTenteOuvrirMur() {
+    tenteOuvrirMur() {
         var booPeutOuvrir = false;
     
-        if (this.intNbOuvreur > 0) {
+        if (objPointage.intNbOuvreur > 0 && (objPointage.intNbPoint > 50)) {
             var camera = objScene3D.camera;
             var intDirection = objJoueur.directionRegard(getCibleCameraX(camera), getCibleCameraZ(camera));
     
             var objResultat = objJoueur.MurDevantDestructible(objScene3D.tabObjets3D);
             if (objResultat.booTrouver) {
                 objScene3D.tabObjets3D.splice(objResultat.index,1);
-                this.intNbOuvreur--;
+                objPointage.intNbOuvreur--;
+                objPointage.intNbPoint
+                objPointage.ouvreMur();
                 console.log("Pouff Magie!!");
             }
             else {
@@ -142,35 +150,22 @@ class Niveau {
             }
         }
         else {
-            console.log('Nb ouvreur insufissant');
+            console.log('Ouverture pas disponible (NB point ou Nb ouvreur)');
+        }
+    }
+
+    reinitialiseNiveauActuel() {
+        objPointage.intNbOuvreur = this.intNbOuvreur;
+
+        let index = 0;
+        for (; index < this.tabObj3DNiveau.length; index++) {
+            objScene3D.tabObjets3D.push(this.tabObj3DNiveau[index]);
         }
     }
 }
 
-var booSortieEnclos = false;
-var objPositionTresor = new Object();
 
-
-function initialiseNiveau() {
-    /*
-     //trésor
-     // Créer le trésor (maillage tempo et place défini tempo)
-    var obj3DTresor = creerObj3DTresor(objgl, 22, 12, TEX_SOL, [0.8, 0.6, 0.1, 1]);
-    objScene3D.tabObjets3D.push(obj3DTresor);
-    objPositionTresor.xPosition = 22;
-    objPositionTresor.zPosition = 12;
-
-    //Flèche
-    //Une pour l'instant
-    //Ajouter une flèche ... tempo
-    var obj3DFleche = creerObj3DFleches(objgl, 16,12, TEX_SOL);
-
-    setPositionsXYZ([20.5,1.7,12.5], obj3DFleche.transformations);
-    
-    objScene3D.tabObjets3D.push(obj3DFleche);
-
-    var fltAngleY = getAngleY(obj3DFleche.transformations) - initialiseFleche(20.5,12.5,22.5,12.5);
-    setAngleY(fltAngleY, obj3DFleche.transformations);*/
+function initialiseVueAerienne() {
 
     //Vue Aérienne
     objVueAerienne = new VueAerienne();

@@ -3,6 +3,7 @@
 //Fichier js Principale
 
 var objCanvas = null;
+var objDivTemps = null;
 var objgl = null;
 var objProgShaders = null;
 var objScene3D = null;
@@ -11,6 +12,8 @@ var tabImage = null;
 var objNiveau = null;
 var objJoueur = null;
 var objVueAerienne = null;
+var objPointage = null;
+var div = null;
 var tableauDedale = [
 	[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
 	[3,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,2,1,3],
@@ -57,11 +60,13 @@ const Est = 1;
 const Sud = 2;
 const Ouest = 3;
 
+var objDateHeureDepart = null;
 
-function demarreChargeImage(Canvas) {
+
+function demarreChargeImage(Canvas, objTemps) {
     chargeImage(['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'Ciel.jpg'], initAnimation);
     objCanvas = Canvas;
-
+    objDivTemps = objTemps;
 }
 
 function initAnimation(tabDesImage) {
@@ -70,9 +75,18 @@ function initAnimation(tabDesImage) {
     objProgShaders = initShaders(objgl);
     objScene3D = initScene3D(objgl); // Créer la scène
 
-    objNiveau = new Niveau(5);
-    initialiseNiveau();
+    objPointage = new Pointage();
 
+    objNiveau = new Niveau(1);
+    initialiseVueAerienne();
+
+    //https://webglfundamentals.org/webgl/lessons/webgl-text-html.html
+    div = document.createElement("div");
+    div.className = "floating-div";
+    var textNode = document.createTextNode("Temps écoulé: 0 Duré niveau: " + objPointage.fltDureeNiveau + "Pointage: " + objPointage.intNbPoint);
+    div.appendChild(textNode);
+    objDivTemps.appendChild(div);
+    
     dessiner(objgl, objProgShaders, objScene3D);
     animer();
 }
@@ -118,20 +132,17 @@ function initScene3D(objgl) {
     // Mettre les objets 3D sur la scène
     objScene3D.tabObjets3D = tabObjets3D;
 
-    
     objJoueur = new Joueur(tableauDedale);
-
 
     // La caméra
     var camera = creerCamera();
-    setPositionsCameraXYZ([15.5, 1, 16], camera);
+    setPositionsCameraXYZ([objJoueur.fltPositionX, 1, objJoueur.fltPositionZ], camera);
     setCiblesCameraXYZ([15.5, 1, 0], camera);
     setOrientationsXYZ([0, 1, 0], camera);
 
     // Mettre la caméra sur la scène
     objScene3D.camera = camera;
 
-    
     return objScene3D;
 }
 
@@ -142,13 +153,54 @@ function animer() {
 
     // Le cycle d'animation
     effacerCanevas(objgl);
-    //mettreAjourAnimation(objScene3D);
+    mettreAjourAnimation();
     dessiner(objgl, objProgShaders, objScene3D);
 }
 
-function mettreAjourAnimation(objScene3D) {
+function mettreAjourAnimation() {
+    //l'affichage du temps
+    objPointage.metAJourTemps();
 
-        
+    objDivTemps.removeChild(div);
+    div = document.createElement("div");
+    div.className = "floating-div";
+    var textNode = document.createTextNode("Temps écoulé: " + objPointage.fltTemps + " Duré niveau: " + objPointage.fltDureeNiveau + "  Pointage: " + objPointage.intNbPoint);
+    div.appendChild(textNode);
+    objDivTemps.appendChild(div);
+
+    //Réinitialise niveau ou change de niveau
+
+    //Si trésor trouvé
+    if (objNiveau.booTresorTrouve) {
+        //Si niveau 10 terminé
+        if (objPointage.intNiveau == 10) {
+            console.log('Victoire');
+        }
+        else {
+            objPointage.intNiveau++;
+            objPointage.fltTempsDepart = null;
+            objPointage.fltTemps = 0;
+            objScene3D = initScene3D(objgl);
+            objNiveau = new Niveau(objPointage.intNiveau);
+            initialiseVueAerienne();
+            console.log('Niveau ' + objPointage.intNiveau);
+        } 
+    }
+    //Si le temps du niveau est utilisé au complet
+    else if (objPointage.fltDureeNiveau < objPointage.fltTemps) {
+        objPointage.recommenceNiveau();
+
+        if (objPointage.intNbPoint > 0) {
+            objPointage.fltTempsDepart = null;
+            objPointage.fltTemps = 0;
+            objScene3D = initScene3D(objgl);
+            objNiveau.reinitialiseNiveauActuel();
+            console.log('Recommence Niveau')
+        }
+        else {
+            console.log('Partie terminé');
+        }
+    }
 }
 
 function effacerCanevas(objgl) {
@@ -288,10 +340,12 @@ function deplacerCamera(eventCode) {
     }
     else if (!objVueAerienne.booVueActive) {
         if (clef == 32) {
-            objNiveau.tempoTenteOuvrirMur();
+            objNiveau.tenteOuvrirMur();
     
         }
         else if (clef == 37 || clef == 39) {
+            objPointage.fltTempsDepart = (objPointage.fltTempsDepart == null) ? new Date() : objPointage.fltTempsDepart;
+
             // 37:  Flèche-à-gauche; 39:Flèche-à-droite
             var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
             var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
@@ -308,6 +362,8 @@ function deplacerCamera(eventCode) {
             //setAngleZ(fltAngleY, objScene3D.tabObjets3D.slice(0,1).shift().transformations);
         }
         else if (clef == 38 || clef == 40) {
+            objPointage.fltTempsDepart = (objPointage.fltTempsDepart == null) ? new Date() : objPointage.fltTempsDepart;
+             
             // 38:  Flèche-en-haut; 40:Flèche-en-bas
             var fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
             var fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
@@ -390,5 +446,3 @@ function deplacerCamera(eventCode) {
     effacerCanevas(objgl);
     dessiner(objgl, objProgShaders, objScene3D);
 }
-
-

@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Traquenard par Philippe Doyon && Jérémie Lapointe</title>
+    <title>Tresaurus par Philippe Doyon && Jérémie Lapointe</title>
 
     <link rel="stylesheet" type="text/css" href="StyleTraquenard.css" />
 
@@ -25,18 +25,18 @@
     <script type="text/javascript" src="Recepteur.js"></script>
     <script type="text/javascript" src="Transporteur.js"></script>
     <script type="text/javascript" src="VueAerienne.js"></script>
-
+    <script type="text/javascript" src="Pointage.js"></script>
 
     <script type="text/javascript">
 
     </script>
 </head>
 
-<body onload="demarreChargeImage(objCanvas)">
+<body onload="demarreChargeImage(objCanvas, objDivTemps)">
     <header class="sTexteCentre sLargeurDiv sEntete">
         <p>
             <span class="sTitreApp">
-                Traquenard
+                Tresaurus
                 <br />
             </span> par
             <span class="sAuteurApp">
@@ -46,9 +46,14 @@
     </header>
 
     <main class="sLargeurDiv sCorps">
-        <canvas id="monCanvas" width="1280" height="720" tabindex="1" onkeydown="deplacerCamera(event); return false">
-            Votre navigateur ne supporte pas la balise canvas
-        </canvas>
+        <!--Pour l'affichage dans le canva webgl : https://webglfundamentals.org/webgl/lessons/webgl-text-html.html-->
+        <div class="container">
+            <canvas id="monCanvas" width="1280" height="720" tabindex="1" onkeydown="deplacerCamera(event); return false">
+                Votre navigateur ne supporte pas la balise canvas
+            </canvas>
+            <div id="divTempsNiveau">
+            </div>
+        </div>
     </main>
 
     <footer class="sLargeurDiv sPiedDePage">
@@ -68,4 +73,5 @@
 <!-- Code JavaScript local -->
 <script type="text/javascript">
     var objCanvas = document.getElementById('monCanvas');
+    var objDivTemps = document.getElementById('divTempsNiveau');
 </script>

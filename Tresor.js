@@ -1,5 +1,5 @@
 //Tresor.js
-//Philippe Doyon && Jérémie Lapointe
+//Philippe Doyon
 
 function creerObj3DTresor(objgl, fltPositionX, fltPositionZ, intNoTexture, couleurTempo) {
     var obj3DTresor = new Object();

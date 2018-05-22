@@ -3,8 +3,8 @@
 
 class Joueur {
     constructor(tabDedale) {
-        this.fltPositionX = 1.5// tempo, ca va etre 16
-        this.fltPositionZ = 1.5; // tempo, ca va etre 16
+        this.fltPositionX = 15.5;
+        this.fltPositionZ = 16;
         this.tabCarte = tabDedale;
         this.intDirection = -1;
         this.booImmobile = false;
